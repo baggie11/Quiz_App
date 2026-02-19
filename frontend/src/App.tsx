@@ -5,7 +5,7 @@ import QuestionBuilderPage from "./pages/QuestionBuilderPageWrapper";
 import QuizVisionHome from "./pages/Role";
 import QuizVoiceAgent from "./pages/LandingPage";
 import RollNumberVision from "./pages/NamePage";
-import QuizPlayPage from "./pages/SessionPage";
+// import QuizPlayPage from "./pages/SessionPage";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
     />} />
 
         <Route path = "/enter-name" element = {<RollNumberVision/>}/>
-        <Route path = "/session/:sessionId" element = {<QuizPlayPage/>}/>
+        {/* <Route path = "/session/:sessionId" element = {<QuizPlayPage/>}/> */}
       </Routes>
     </Router>
   );
