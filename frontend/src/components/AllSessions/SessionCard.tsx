@@ -67,7 +67,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, onDelete, getSession
         <div className="flex items-center gap-1.5">
           <Copy size={14} className="text-slate-400" />
           <span className="text-xs text-slate-500">
-            Code: <span className="font-mono text-slate-700">{session.sessionId || `${session.id.substring(0, 6)}...`}</span>
+            {/* Code: <span className="font-mono text-slate-700">{session.sessionId || `${session.id.substring(0, 6)}...`}</span> */}
           </span>
         </div>
         <div className="flex items-center gap-1 text-xs font-medium text-slate-600">
