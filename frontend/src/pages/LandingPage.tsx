@@ -781,6 +781,7 @@ const QuizVoiceAgent: React.FC = () => {
   useEffect(() => {
     if (!botAudioRef.current) {
       const audio = document.createElement('audio');
+      console.log(connectionStatus);
       audio.autoplay = true;
       document.body.appendChild(audio);
       botAudioRef.current = audio;
@@ -895,6 +896,7 @@ const QuizVoiceAgent: React.FC = () => {
           },
           onBotReady: (data) => {
             addDebugLog(`Bot ready`, 'info');
+            console.log(data);
           },
           onUserTranscript: (data) => {
             if (data.final) {
