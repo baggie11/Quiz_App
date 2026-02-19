@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef, type WheelEvent } from 'react';
 import { type Question } from '../../types';
-import { X, Eye, CheckCircle, Star, Type, MessageSquare, ClipboardList, ChevronRight, XCircle } from 'lucide-react';
+import { X, Eye, CheckCircle, Star, Type, MessageSquare, ClipboardList } from 'lucide-react';
 
 interface QuestionPreviewProps {
   isOpen: boolean;

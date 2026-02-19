@@ -2,6 +2,7 @@ import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Tag, Clock, Users, Target, Link, ChevronLeft } from 'lucide-react';
 import { type Session } from '../../types';
+import { API } from '../../api/config';
 
 interface CreateSessionFormProps {
   addSession?: (newSession: Session) => void;
@@ -141,7 +142,7 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
         draft: false,
       };
 
-      const response = await fetch(`http://localhost:3000/api/session`, {
+      const response = await fetch(`${API.node}/api/session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

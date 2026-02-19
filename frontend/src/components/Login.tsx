@@ -26,7 +26,7 @@ const HostLogin: React.FC<HostLoginProps> = ({ toggleToSignup }) => {
     setError(null);
 
     try {
-      const res = await fetch(`http://localhost:3000/api/auth/user/login`, {
+      const res = await fetch(`${API.node}/api/auth/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

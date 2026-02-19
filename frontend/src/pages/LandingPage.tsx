@@ -729,6 +729,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PipecatClient, type PipecatClientOptions} from '@pipecat-ai/client-js'; // , RTVIEvent 
 import { WebSocketTransport } from '@pipecat-ai/websocket-transport';
+import { API } from '../api/config';
 import { 
   Mic, MicOff, MessageSquare, 
    XCircle, HelpCircle, RefreshCw,
@@ -800,7 +801,7 @@ const QuizVoiceAgent: React.FC = () => {
     try {
       addDebugLog('Fetching questions from API...', 'info');
       
-      const response = await fetch(`http://localhost:3000/api/sessions/${SESSION_CODE}/questions`);
+      const response = await fetch(`${API.node}/api/sessions/${SESSION_CODE}/questions`);
       
       if (response.ok) {
         const data = await response.json();

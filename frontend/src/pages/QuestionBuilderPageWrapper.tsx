@@ -6,7 +6,7 @@ import React, {
   useMemo,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertCircle, ChevronLeft } from 'lucide-react';
+import { AlertCircle, ChevronLeft } from 'lucide-react';
 import { API } from '../api/config';
 
 import type {

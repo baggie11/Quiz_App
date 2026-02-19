@@ -6,9 +6,7 @@ import {
   UserPlus,
   ArrowRight,
   Sparkles,
-  Award,
   ClipboardCheck,
-  BarChart3,
   Settings,
   CheckCircle,
   LogIn,
@@ -30,7 +28,7 @@ const QuizVisionHome: React.FC = () => {
 
   const participantButtonRef = useRef<HTMLButtonElement>(null);
   const hostCardRef = useRef<HTMLDivElement>(null);
-  const mainContainerRef = useRef<HTMLDivElement>(null);
+  // const mainContainerRef = useRef<HTMLDivElement>(null);
 
   const handleParticipantFocus = () => {
     speak("Join as Participant. Press Enter or Space to join a quiz session as a participant.");
