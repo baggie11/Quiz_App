@@ -37,7 +37,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:5173",
-            "https://quiz-app-tzvw.vercel.app" ,
+            "https://quiz-app-2irr.vercel.app" ,
             "http://localhost:5174"
         ],
         methods: ["GET", "POST", "PUT", "DELETE"],

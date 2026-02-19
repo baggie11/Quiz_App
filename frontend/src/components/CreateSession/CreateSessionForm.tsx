@@ -1,6 +1,6 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Tag, Clock, Users, Target, Link, ChevronLeft } from 'lucide-react';
+import { Calendar, Tag, Clock, Link, ChevronLeft } from 'lucide-react';
 import { type Session } from '../../types';
 import { API } from '../../api/config';
 
@@ -18,12 +18,8 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
     sessionName: '',
     quizTopic: '',
     duration: '',
-    maxParticipants: '',
-    passmark: '',
     startDate: '',
-    startTime: '',
     endDate: '',
-    endTime: '',
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -41,10 +37,6 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
       return false;
     }
 
-    if (!formData.quizTopic.trim()) {
-      setError("Quiz topic is required");
-      return false;
-    }
 
     if (!formData.startDate) {
       setError("Start date is required");
@@ -87,27 +79,6 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
       return false;
     }
 
-    if (!formData.maxParticipants) {
-      setError("Max participants is required");
-      return false;
-    }
-
-    const maxParticipants = parseInt(formData.maxParticipants);
-    if (isNaN(maxParticipants) || maxParticipants <= 0) {
-      setError("Max participants must be a positive number");
-      return false;
-    }
-
-    if (!formData.passmark) {
-      setError("Pass mark is required");
-      return false;
-    }
-
-    const passmark = parseInt(formData.passmark);
-    if (isNaN(passmark) || passmark < 0 || passmark > 100) {
-      setError("Pass mark must be between 0 and 100");
-      return false;
-    }
 
     return true;
   };
@@ -123,22 +94,20 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
       setLoading(true);
       const token = localStorage.getItem('token');
 
+      // Set default times: start at 00:00:00, end at 23:59:59
       const startDateTime = new Date(formData.startDate);
-      const [startHours, startMinutes] = (formData.startTime || '00:00').split(':');
-      startDateTime.setHours(parseInt(startHours), parseInt(startMinutes), 0, 0);
+      startDateTime.setHours(0, 0, 0, 0);
       
       const endDateTime = new Date(formData.endDate);
-      const [endHours, endMinutes] = (formData.endTime || '23:59').split(':');
-      endDateTime.setHours(parseInt(endHours), parseInt(endMinutes), 59, 999);
+      endDateTime.setHours(23, 59, 59, 999);
 
       const payload = {
         title: formData.sessionName.trim(),
-        quiz_topic: formData.quizTopic.trim(),
+        topic: formData.quizTopic.trim(),
         start_date: startDateTime.toISOString(),
         end_date: endDateTime.toISOString(),
         duration: parseInt(formData.duration),
-        max_participants: parseInt(formData.maxParticipants),
-        pass_mark: parseInt(formData.passmark),
+       
         draft: false,
       };
 
@@ -168,12 +137,9 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
               sessionName: '',
               quizTopic: '',
               duration: '',
-              maxParticipants: '',
-              passmark: '',
+            
               startDate: '',
-              startTime: '',
               endDate: '',
-              endTime: '',
             });
             setSuccess(null);
           }, 2000);
@@ -229,22 +195,7 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
               />
             </div>
 
-            {/* Quiz Topic */}
-            <div>
-              <label htmlFor="quizTopic" className="block text-sm font-medium text-slate-700 mb-1.5">
-                Quiz Topic <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="quizTopic"
-                name="quizTopic"
-                value={formData.quizTopic}
-                onChange={handleChange}
-                placeholder="e.g., Mathematics"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
-                required
-              />
-            </div>
+           
 
             {/* Duration & Max Participants */}
             <div className="grid grid-cols-2 gap-4">
@@ -269,48 +220,9 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="maxParticipants" className="block text-sm font-medium text-slate-700 mb-1.5">
-                  Max Participants <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <Users size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="number"
-                    id="maxParticipants"
-                    name="maxParticipants"
-                    value={formData.maxParticipants}
-                    onChange={handleChange}
-                    placeholder="50"
-                    min="1"
-                    className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
-                    required
-                  />
-                </div>
-              </div>
             </div>
 
-            {/* Pass Mark */}
-            <div>
-              <label htmlFor="passmark" className="block text-sm font-medium text-slate-700 mb-1.5">
-                Pass Mark (%) <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <Target size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input
-                  type="number"
-                  id="passmark"
-                  name="passmark"
-                  value={formData.passmark}
-                  onChange={handleChange}
-                  placeholder="70"
-                  min="0"
-                  max="100"
-                  className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
-                  required
-                />
-              </div>
-            </div>
+   
           </div>
         </div>
 
@@ -336,22 +248,7 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
                 className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
                 required
               />
-            </div>
-
-            {/* Start Time */}
-            <div>
-              <label htmlFor="startTime" className="block text-sm font-medium text-slate-700 mb-1.5">
-                Start Time <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="time"
-                id="startTime"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
-                required
-              />
+              <p className="mt-1 text-xs text-slate-500">Session starts at 00:00 on this day</p>
             </div>
 
             {/* End Date */}
@@ -369,22 +266,7 @@ const CreateSessionForm: React.FC<CreateSessionFormProps> = ({
                 className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
                 required
               />
-            </div>
-
-            {/* End Time */}
-            <div>
-              <label htmlFor="endTime" className="block text-sm font-medium text-slate-700 mb-1.5">
-                End Time <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="time"
-                id="endTime"
-                name="endTime"
-                value={formData.endTime}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
-                required
-              />
+              <p className="mt-1 text-xs text-slate-500">Session ends at 23:59 on this day</p>
             </div>
           </div>
         </div>
