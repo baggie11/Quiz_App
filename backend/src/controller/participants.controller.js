@@ -1,6 +1,5 @@
 // controllers/session.controller.js
-import { joinSessionService, saveParticipantAnswer
- } from "../services/participants.service.js";
+import { joinSessionService, saveParticipantAnswer, saveParticipantAnswers } from "../services/participants.service.js";
 
 
 /**
@@ -79,6 +78,26 @@ export async function submitParticipantAnswer(req, res) {
     return res.status(500).json({
       success: false,
       message: "Could not save answer"
+    });
+  }
+}
+
+export async function createParticipantAnswers(req, res) {
+  try {
+    const result = await saveParticipantAnswers(req.body);
+
+    return res.status(201).json({
+      success: true,
+      message: "Participant answers saved",
+      data: result
+    });
+
+  } catch (error) {
+    console.error("Create Participant Answers Error:", error.message);
+
+    return res.status(400).json({
+      success: false,
+      error: error.message
     });
   }
 }

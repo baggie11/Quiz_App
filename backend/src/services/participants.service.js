@@ -4,7 +4,8 @@ import {
   createParticipant,
   getParticipantByNickName,
   updateParticipantAnswer,
-  insertParticipantAnswer
+  insertParticipantAnswer,
+  insertQuizParticipantAnswer
 } from "../db/participants.repo.js";
 
 
@@ -103,4 +104,20 @@ export async function saveParticipantAnswer({
     status: "inserted",
     answer: inserted[0]
   };
+}
+
+export async function saveParticipantAnswers(payload) {
+  const { session_id, participant_id, responses } = payload;
+
+  if (!session_id || !participant_id || !responses) {
+    throw new Error("session_id, participant_id and responses are required");
+  }
+
+  // you can add more logic here later (validation, scoring, etc.)
+
+  return await insertQuizParticipantAnswer({
+    session_id,
+    participant_id,
+    responses
+  });
 }

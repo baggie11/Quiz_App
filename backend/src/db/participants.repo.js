@@ -103,3 +103,24 @@ export async function insertParticipantAnswer(
     })
     .select();
 }
+
+export async function insertQuizParticipantAnswer({
+  session_id,
+  participant_id,
+  responses
+}) {
+  const { data, error } = await supabase
+    .from("quiz_participant_responses")
+    .insert([
+      {
+        session_id,
+        participant_id,
+        responses
+      }
+    ])
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
