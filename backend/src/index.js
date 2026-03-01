@@ -11,6 +11,17 @@ import tokenRoutes from './routes/token.routes.js';
 
 
 const app = express();
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "https://quiz-app-2irr.vercel.app"
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true
+    })
+);
 // Port configuration
 const PORT = process.env.PORT || 3000;
 
@@ -33,18 +44,7 @@ app.use((req, res, next) => {
 // Middleware to parse JSON
 app.use(express.json());
 
-app.use(
-    cors({
-        origin: [
-            "http://localhost:5173",
-            "https://quiz-app-2irr.vercel.app" ,
-            "http://localhost:5174"
-        ],
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true
-    })
-);
+
 
 // Routes
 app.use('/api/auth',authRoutes);
