@@ -7,7 +7,6 @@ import cors from 'cors';
 import questionsRoutes from './routes/questions.routes.js';
 import participantRoutes from './routes/participant.routes.js';
 import agentRoutes from './routes/agents.routes.js'; // The new Agent logic module
-import tokenRoutes from './routes/token.routes.js';
 
 
 const app = express();
@@ -25,21 +24,21 @@ app.use(
 // Port configuration
 const PORT = process.env.PORT || 3000;
 
-// Middleware to log raw body for debugging agent requests (optional but useful)
-app.use((req, res, next) => {
-    let data = '';
-    req.on('data', chunk => {
-        data += chunk;
-    });
-    req.on('end', () => {
-        if (data && req.path.startsWith('/api/agent')) {
-            console.log(`🟡 RAW BODY (${req.path}):`, data);
-        }
-        // Need to re-parse the body if you log it like this, or use body-parser middleware.
-        // Assuming express.json() handles the parsing for req.body below.
-    });
-    next();
-});
+// // Middleware to log raw body for debugging agent requests (optional but useful)
+// app.use((req, res, next) => {
+//     let data = '';
+//     req.on('data', chunk => {
+//         data += chunk;
+//     });
+//     req.on('end', () => {
+//         if (data && req.path.startsWith('/api/agent')) {
+//             console.log(`🟡 RAW BODY (${req.path}):`, data);
+//         }
+//         // Need to re-parse the body if you log it like this, or use body-parser middleware.
+//         // Assuming express.json() handles the parsing for req.body below.
+//     });
+//     next();
+// });
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -52,7 +51,7 @@ app.use('/api/session',sessionRoutes);
 app.use('/api/sessions/:sessionId/questions',questionsRoutes);
 app.use('/api/participants',participantRoutes);
 app.use("/api/agent", agentRoutes); // <-- Agent Logic Endpoint
-app.use("/api/token",tokenRoutes);
+// app.use("/api/token",tokenRoutes);
 
 
 // Simple GET endpoint
